@@ -12,7 +12,7 @@ Follow the below guide for building your first chart with JavaScript. There are 
 
 ## 0. Prepare this repository for development
 
-- Make a fresh fork of this repo. Make sure you include the branch `LAB6-intro-chartjs`.
+- Use the "Use this Template" button in the top right, and make a new repository. **Do not work directly on this in codespaces**. Make sure you include all branches.
 - After you clone your forked repo, navigate to this branch with GitHub Desktop, or with the command line:
 
 ```bash
