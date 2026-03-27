@@ -61,6 +61,8 @@ Data loading is not instantaneous. We need to set up an asynchronous function to
 
 Use `police_shootings.csv` for now - we'll come back to its wider cousin later. *Disclaimer - this is dummy data and does not reflect reality.*
 
+We are going to define a *function* called `loadAndChartData`, and then call it (i.e. have our script execute it). We only want to define it once, and call it once; as you progress through the next few steps, make sure you are replacing the existing version of `loadAndChartData` with the updated one.
+
 ```js
 async function loadAndChartData() { // function syntax
   const response = await fetch('data/police_shootings.csv') // a relative pathway to our data file. Vite is helping us out here
@@ -117,7 +119,7 @@ loadAndChartData()
 
 A line chart is always a good choice for simple temporal data. The [chart.js docs](https://www.chartjs.org/docs/latest/charts/line.html) give us what we will need to execute. Hint: look at both "Config" and "Setup".
 
-**Q2: Describe the data structure of the object that `chart.js` expects. What is the top level data type? What data types are nested? How many levels of nesting do you see?**
+~~Q2: Describe the data structure of the object that `chart.js` expects. What is the top level data type? What data types are nested? How many levels of nesting do you see?~~
 
 Let's get the basics of our line chart set up.
 
