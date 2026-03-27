@@ -19,7 +19,7 @@ Follow the below guide for building your first chart with JavaScript. There are 
 git checkout branch LAB6-intro-chartjs
 ```
 
-- Follow the [setup instructions](https://github.com/JMeltzer92/328T628T-starter-repo). You can refer to them at any time by navigating back to the `main` branch.
+- Follow through step 2 in the [setup instructions](https://github.com/JMeltzer92/328T628T-starter-repo). You can refer to them at any time by navigating back to the `main` branch.
 
 ## 1. Install chart.js
 
