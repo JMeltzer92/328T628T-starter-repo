@@ -136,7 +136,7 @@ async function loadAndChartData() {
     {
       type: 'line',
       data: { // the object containing the data driving the graphic
-        labels: data.map(d => d.Year), // The values of all our observations. Map is extracting all the values of each row object from the data array. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+        labels: data.map(d => d.Year), // The values of all our observations. `data.map` is extracting all the values of each row object from the data array. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 				datasets: [{ // Array: one object per dataset plotted
 					label: 'Fatal Police Shootings in the US', // The title (legend label) of the variable in question 
 					data: data.map(d => d['Fatal police shootings (US)']), // The value of 'Fatal police shootings (US)' for each year, in the same order as the `labels` object above thihs in the nested hierarchy. 
