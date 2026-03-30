@@ -2,6 +2,9 @@ import './styles.css'
 import * as d3 from 'd3'
 import { annotation } from 'd3-svg-annotation'
 
+const mdColor = "#e7ae34"
+const usColor = "#2b2bb0"
+
 // 1. ACCESS DATA *******************************
 const data = await d3.csv("data/3party-data.csv")
 
@@ -68,9 +71,6 @@ const yAxis = chart
       .text("Percent of popular vote to 3rd Party")
 
 // 5. DRAW DATA    *******************************
-const mdColor = "#69b3a2"
-const usColor = "#404080"
-
 const mdBars = chart.selectAll(".bar")
   .data(data)
   .enter().append("rect")
