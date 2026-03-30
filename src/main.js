@@ -12,7 +12,7 @@ const data = await d3.csv("data/3party-data.csv")
 const margin = {
   top: 30,
   right: 30,
-  bottom: 70,
+  bottom: 50,
   left: 20
 }
 const width = 800 - margin.left - margin.right
