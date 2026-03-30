@@ -1,8 +1,8 @@
 :root{
-  --bg: #0f172a;
+  --bg: #28417a;
   --card: #0b1220;
   --muted: #94a3b8;
-  --accent: #7dd3fc;
+  --accent: #1d6789;
 }
 
 html,body,#app{height:100%;}
@@ -35,4 +35,9 @@ h1 {
   font-size: 1.55em;
   margin: 12px 0;
   font-weight: 600;
+}
+
+p {
+  margin: 0;
+  font-size: 0.8rem;
 }
