@@ -12,41 +12,21 @@ Follow the below guide for building your first chart with JavaScript. There are 
 
 ## 0. Prepare this repository for development
 
-- Make a fresh fork of this repo. Make sure you include the branch `LAB6-intro-chartjs`.
+- Make a fresh fork of this repo. Make sure you include the branch `LAB7-d3js`.
 - After you clone your forked repo, navigate to this branch with GitHub Desktop, or with the command line:
 
 ```bash
-git checkout branch LAB6-intro-chartjs
+git checkout LAB7-d3js
 ```
 
 - Follow the [setup instructions](https://github.com/JMeltzer92/328T628T-starter-repo). You can refer to them at any time by navigating back to the `main` branch.
 
-## 1. Install chart.js
-
-You'll need to install `chart.js`. Remember, we can do this either a `<script>` import, or modularly.
-
-### Modular (recommended)
+## 1. Install D3.js
 
 In the VSCode/CodeSpace command line:
 
 ```bash
-npm install chart.js
-npm install d3
-```
-
-Then, you'll need to navigate to `main.js` and add the following at the top of your script:
-
-```js
-import { Chart } from 'chart.js/auto' // A complete build of chart.js - not advised for production, but okay for our purposes
-import { csvParse } from 'd3' // A single exported module from d3 for reading csv files
-```
-
-### jsDelivr
-
-Inside your `body` tags in your HTML:
-
-```html
-<script src='https://www.jsdelivr.com/package/npm/chart.js'></script>
+npm add d3
 ```
 
 ## 2. Prepare HTML for chart.js
