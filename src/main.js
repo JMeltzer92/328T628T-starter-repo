@@ -2,12 +2,15 @@ import './styles.css'
 import * as d3 from 'd3'
 import { annotation } from 'd3-svg-annotation'
 
+const mdColor = "#e7ae34"
+const usColor = "#2b2bb0"
+
 // 1. ACCESS DATA *******************************
 const data = await d3.csv("data/3party-data.csv")
 
 // 2. DRAW CANVAS  *******************************
 const margin = {
-  top: 50,
+  top: 30,
   right: 30,
   bottom: 70,
   left: 20
@@ -35,13 +38,14 @@ const xAxis = chart
   .attr("transform", `translate(0, ${height})`)
   .classed("x-axis", true)
   .call(d3.axisBottom(xScale))
-    .append("text")
-      .attr("text-anchor", "center")
-      .attr("fill", "black")
-      .attr("font-size", "1.25em")
-      .attr("x", (width / 2))
-      .attr("y", 40)
-      .text("Election Year")
+xAxis.select(".domain").remove()
+xAxis.append("text")
+    .attr("text-anchor", "center")
+    .attr("fill", "black")
+    .attr("font-size", "1.25em")
+    .attr("x", (width / 2))
+    .attr("y", 35)
+    .text("Election Year")
 
 // 4. CREATE Y AXIS *******************************
 const yScale = d3
@@ -49,7 +53,6 @@ const yScale = d3
   // .domain([0, d3.max(data, d => +d.p_share_us)])
   .domain([0, 20])
   .range([height, 0])
-
 const yAxis = chart
   .append("g")
   .attr("transform", `translate(0, 0)`)
@@ -59,19 +62,124 @@ const yAxis = chart
       .tickValues([0, 5, 10, 15, 20])
       .tickFormat(d => d % 10 === 0 ? d : "")
   )
-    .append("text")
-      .attr("text-anchor", "start")
-      .attr("fill", "black")
-      .attr("font-size", "1.25em")
-      .attr("x", -20)
-      .attr("y", -10)
-      .text("Percent of popular vote to 3rd Party")
+yAxis.select(".domain").remove()
+yAxis.append("text")
+    .attr("text-anchor", "start")
+    .attr("fill", "black")
+    .attr("font-size", "1.25em")
+    .attr("x", -20)
+    .attr("y", -15)
+    .text("Percent of popular vote to 3rd Party")
 
-// 5. DRAW DATA    *******************************
-const mdColor = "#69b3a2"
-const usColor = "#404080"
+// 7. ANNOTATIONS   *******************************
+// Based on this custom annotations library: https://d3-annotation.susielu.com/
+const annotations = [
+  {
+    note: {
+      title: "Ross Perot",
+      label: "won over 14% of the Maryland vote as an independent candidate in 1992.",
+      wrap: 400,  // size
 
-const mdBars = chart.selectAll(".bar")
+    },
+    connector: {
+      end: "none",        
+      type: "line",       
+      points: 1,           
+      lineType : "horizontal"
+    },
+    color: mdColor,
+    x: xScale(1992) + xScale.bandwidth() / 2,
+    y: yScale(data[0].p_share_md),
+    dy: 0,
+    dx: 100
+  }
+]
+  
+const makeAnnotations = annotation()
+  .annotations(annotations)
+    
+chart.append("g")
+  .call(makeAnnotations)
+  .attr("z-index", "-1")
+
+// 8. LEGEND  *******************************
+// const legend = svg.append("g")
+//   .classed("legend", true)
+//   .attr("transform", `translate(0, 0)`)
+
+// legend.append("rect")
+//   .attr("x", 0)
+//   .attr("y", 0)
+//   .attr("width", 15)
+//   .attr("height", 15)
+//   .attr("fill", mdColor)
+
+// legend.append("text")
+//   .attr("x", 25)
+//   .attr("y", 12)
+//   .text("Maryland")
+
+// legend.append("rect")
+//   .attr("x", 110)
+//   .attr("y", 0)
+//   .attr("width", 15)
+//   .attr("height", 15)
+//   .attr("fill", usColor)
+
+// legend.append("text")
+//   .attr("x", 135)
+//   .attr("y", 12)
+//   .text("United States")
+
+const defs = svg.append("defs")
+
+const clipPathMd = defs.append("clipPath")
+  .attr("id", "mdClip")
+
+clipPathMd.selectAll("rect")
+  .data(data)
+  .enter().append("rect")
+  .attr("x", d => xScale(+d.election))
+  .attr("y", d => yScale(+d.p_share_md))
+  .attr("width", xScale.bandwidth() / 2)
+  .attr("height", d => height - yScale(+d.p_share_md))
+
+const mdFlag = chart.append("g")
+  .append("image")
+  .attr("xlink:href", "/images/mdflag.png")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .attr("x", 0)
+  .attr("y", 0)
+  .style("fit", "cover")
+  .attr("clip-path", "url(#mdClip)")
+
+const clipPathUs = defs.append("clipPath")
+  .attr("id", "usClip")
+
+clipPathUs.selectAll("rect")
+  .data(data)
+  .enter().append("rect")
+  .attr("x", d => xScale(+d.election) + xScale.bandwidth() / 2)
+  .attr("y", d => yScale(+d.p_share_us))
+  .attr("width", xScale.bandwidth() / 2)
+  .attr("height", d => height - yScale(+d.p_share_us))
+
+const usFlag = chart.append("g")
+  .append("image")
+  .attr("xlink:href", "/images/usflag.png")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .attr("x", 0)
+  .attr("y", 0)
+  .style("fit", "cover")
+  .attr("clip-path", "url(#usClip)")
+
+  // 5. DRAW DATA    *******************************
+
+const bars = chart.append("g")
+
+const mdBars = bars.selectAll(".bar")
   .data(data)
   .enter().append("rect")
   .classed("mdBar", true)
@@ -79,11 +187,14 @@ const mdBars = chart.selectAll(".bar")
   .attr("y", d => yScale(+d.p_share_md))
   .attr("width", xScale.bandwidth() / 2)
   .attr("height", d => height - yScale(+d.p_share_md))
-  .attr("fill", mdColor)
-  .attr("opacity", 0.7)
+  // .attr("fill", mdColor)
+  .attr("fill", "#000000")
+  // .attr("opacity", 0.7)
+  .attr("opacity", 0.2)
   .attr("id", d => `mdBar-${d.election}`)
+  .attr("border", "1px solid black")
 
-const usBars = chart.selectAll(".bar2")
+const usBars = bars.selectAll(".bar2")
   .data(data)
   .enter().append("rect")
   .classed("usBar", true)
@@ -91,8 +202,11 @@ const usBars = chart.selectAll(".bar2")
   .attr("y", d => yScale(+d.p_share_us))
   .attr("width", xScale.bandwidth() / 2)
   .attr("height", d => height - yScale(+d.p_share_us))
-  .attr("fill", usColor)
-  .attr("opacity", 0.7)
+  // .attr("fill", usColor)
+  .attr("fill", "#000000")
+  .attr("opacity", 0.2)
+  // .attr("opacity", 0.7)
+  .attr("border", "1px solid black")
   .attr("id", d => `usBar-${d.election}`)
 
 // 6. ADD INTERACTIVITY  *******************************
@@ -142,78 +256,20 @@ d3.selectAll([...mdBars.nodes(), ...usBars.nodes()])
         <br>
         Election: ${tooltipData.election}
         <br>
-        Vote Share: ${tooltipData.vote_share}%
+        3rd Party Vote Share: ${tooltipData.vote_share}%
       `)
 
     positionTooltip(event)
 
-    targetBar.attr("opacity", 1)
+    // targetBar.attr("opacity", 1)
+    targetBar.attr("opacity", 0.5)
   })
   .on("mousemove", function(event) {
     positionTooltip(event)
   })
   .on("mouseout", function(event, d) {
     d3.select(this)
-      .attr("opacity", 0.7)
+      // .attr("opacity", 0.7)
+      .attr("opacity", 0.2)
     tooltip.style("display", "none")
   })
-
-// 7. ANNOTATIONS   *******************************
-// Based on this custom annotations library: https://d3-annotation.susielu.com/
-const annotations = [
-  {
-    note: {
-      title: "Ross Perot",
-      label: "won over 14% of the Maryland vote as an independent candidate in 1992.",
-      wrap: 400,  // size
-
-    },
-    connector: {
-      end: "none",        
-      type: "line",       
-      points: 1,           
-      lineType : "horizontal"
-    },
-    color: mdColor,
-    x: xScale(1992) + xScale.bandwidth() / 2,
-    y: yScale(data[0].p_share_md),
-    dy: 0,
-    dx: 100
-  }
-]
-  
-const makeAnnotations = annotation()
-  .annotations(annotations)
-    
-chart.append("g")
-  .call(makeAnnotations)
-  .attr("z-index", "-1")
-
-// 8. LEGEND  *******************************
-const legend = svg.append("g")
-  .classed("legend", true)
-  .attr("transform", `translate(0, 0)`)
-
-legend.append("rect")
-  .attr("x", 0)
-  .attr("y", 0)
-  .attr("width", 15)
-  .attr("height", 15)
-  .attr("fill", mdColor)
-
-legend.append("text")
-  .attr("x", 25)
-  .attr("y", 12)
-  .text("Maryland")
-
-legend.append("rect")
-  .attr("x", 110)
-  .attr("y", 0)
-  .attr("width", 15)
-  .attr("height", 15)
-  .attr("fill", usColor)
-
-legend.append("text")
-  .attr("x", 135)
-  .attr("y", 12)
-  .text("United States")
