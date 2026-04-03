@@ -87,7 +87,7 @@ const annotations = [
       points: 1,           
       lineType : "horizontal"
     },
-    color: mdColor,
+    color: "black",
     x: xScale(1992) + xScale.bandwidth() / 2,
     y: yScale(data[0].p_share_md),
     dy: 0,
@@ -187,8 +187,7 @@ const mdBars = bars.selectAll(".bar")
   .attr("y", d => yScale(+d.p_share_md))
   .attr("width", xScale.bandwidth() / 2)
   .attr("height", d => height - yScale(+d.p_share_md))
-  // .attr("fill", mdColor)
-  .attr("fill", "#000000")
+  .attr("fill", mdColor)
   // .attr("opacity", 0.7)
   .attr("opacity", 0.2)
   .attr("id", d => `mdBar-${d.election}`)
@@ -202,8 +201,8 @@ const usBars = bars.selectAll(".bar2")
   .attr("y", d => yScale(+d.p_share_us))
   .attr("width", xScale.bandwidth() / 2)
   .attr("height", d => height - yScale(+d.p_share_us))
-  // .attr("fill", usColor)
-  .attr("fill", "#000000")
+  .attr("fill", usColor)
+  // .attr("fill", "#000000")
   .attr("opacity", 0.2)
   // .attr("opacity", 0.7)
   .attr("border", "1px solid black")
@@ -273,3 +272,38 @@ d3.selectAll([...mdBars.nodes(), ...usBars.nodes()])
       .attr("opacity", 0.2)
     tooltip.style("display", "none")
   })
+
+// Ross Perot
+const rossTheBoss = chart.append("g")
+	.attr("transform", "translate(540, 60)")
+
+const bossShadow = rossTheBoss
+	.append("circle")
+	.attr("cx", 52)
+	.attr("cy", 50)
+	.attr("r", 50)
+	.attr("fill", "none")
+	.attr("stroke", "black")
+	.attr("stroke-width", 2)
+
+bossShadow.clone(false)
+	.attr("stroke-width", 4)
+	.attr("fill", "black")
+	.attr("opacity", 0.5)
+	.attr("transform", "translate(1, 1)")
+
+rossTheBoss
+	.append("image")
+	.attr("xlink:href", "/images/ross-perot.jpg")
+	.attr("width", 100)
+	.attr("clip-path", "url(#rossClip)")
+
+const clipPathRoss = defs.append("clipPath")
+	.attr("id", "rossClip")
+
+clipPathRoss
+	.append("circle")
+	.attr("cx", 52)
+	.attr("cy", 50)
+	.attr("r", 50)
+	
