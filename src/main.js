@@ -146,7 +146,7 @@ clipPathMd.selectAll("rect")
 
 const mdFlag = chart.append("g")
   .append("image")
-  .attr("xlink:href", "/images/mdflag.png")
+  .attr("xlink:href", "./images/mdflag.png")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .attr("x", 0)
@@ -167,7 +167,7 @@ clipPathUs.selectAll("rect")
 
 const usFlag = chart.append("g")
   .append("image")
-  .attr("xlink:href", "/images/usflag.png")
+  .attr("xlink:href", "./images/usflag.png")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .attr("x", 0)
@@ -294,7 +294,7 @@ bossShadow.clone(false)
 
 rossTheBoss
 	.append("image")
-	.attr("xlink:href", "/images/ross-perot.jpg")
+	.attr("xlink:href", "./images/ross-perot.jpg")
 	.attr("width", 100)
 	.attr("clip-path", "url(#rossClip)")
 
