@@ -1,12 +1,14 @@
 # 328T628T Starter Repo
 
-Starter template for class projects using Vite, vanilla JS, and CSS.
+Vue 3 sandbox with Vite for optional Lab 8 module.
 
-## What this repo is for
+## What this repo includes
 
-- Build your project locally with Vite.
-- Publish your project manually to GitHub Pages.
-- Share your live URL for review.
+- **Vue 3** with Composition API (setup syntax)
+- **Vite** for fast local development
+- **D3.js** for data visualization
+- **Public directory** for assets (images, data files)
+- **GitHub Pages** auto-deployment ready
 
 ## Requirements
 
@@ -14,120 +16,115 @@ Starter template for class projects using Vite, vanilla JS, and CSS.
 - npm
 - A GitHub account
 
-## 0. Install node.js and npm
+## Setup Instructions
 
-1. Install [node.js](https://nodejs.org/en/download). Make sure you don't click any boxes or buttons to omit npm.
-  - Alternatively, Mac users can run the following in a terminal instance:
+### 1. Install Node.js and npm (local development only)
 
-```bash
-brew install node
-```
+1. Download and install [Node.js](https://nodejs.org/en/download). Ensure npm is included.
+   - **macOS**: Alternatively run `brew install node`
 
-2. Open a terminal (Mac) or Powershell (PC) instance.
-3. Run the following commands, one at a time:
-
+2. Verify installation by running:
 ```bash
 node -v
 npm -v
 ```
 
-Make sure you get a version number of some kind.
+### 2. Create a new repository from this template
 
-## 1. Fork this repo
+1. Click the green **Use this template** button at the top of this repository
+2. Select **Create a new repository**
+3. Name your repository and choose your visibility settings
+4. Click **Create repository from template**
 
-1. Click **Use This Template > Create a new repository** in the top right of this GitHub repo. *Do not edit this repo in codespaces*.
-2. Make sure you have `Include all branches` turned ON.
+### 3. Make a new repo and run locally
 
-## 2. Clone and run locally
-
-You'll need to run the following two lines if you're working in a local IDE.
-
-```bash
-git clone https://github.com/<your-username>/<your-fork-repo>.git
-cd <your-fork-repo>
-```
-
-Whether you're on your local machine or in codespaces, you'll then run these three lines:
+#### Option A: Local IDE
 
 ```bash
+git clone https://github.com/<your-username>/<your-repo>.git
+cd <your-repo>
 npm install
-nvm use
 npm run dev
 ```
 
-Open the local URL shown in your terminal (usually http://localhost:5173). You can `Ctrl + Click` (PC)/`Cmd + Click` (Mac) on the link in the terminal, as well.
+#### Option B: GitHub Codespaces
 
-## 3. One-time setup for GitHub Pages (manual deploy)
+1. Go to your new repository on GitHub
+2. Click **Code → Codespaces → Create codespace on [branch]**
+3. Wait for Codespaces to load, then open a terminal
+4. Run:
 
-In your fork on GitHub:
-
-- Go to Settings -> Pages.
-- Under Build and deployment:
-- Source: Deploy from a branch
-- Branch: main
-- Folder: /docs
-- Click Save.
-
-## 4. Make sure Vite builds for subfolders
-
-Your vite.config.js should include:
-
-```javascript
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  base: './',
-})
+```bash
+npm install
+npm run dev
 ```
 
-This prevents broken JS/CSS paths on GitHub Pages in forks.
+Open the local URL shown in your terminal (usually `http://localhost:5173`).
 
-## 5. Publish to Pages manually (every time you want to deploy)
+### 3. Project structure
 
-After making code changes:
+```
+src/
+  App.vue          - Main Vue component
+  main.js          - App entry point
+  styles.css       - Global styles
+public/
+  data.json        - Your data files (served at /)
+  image.png        - Your images (served at /)
+docs/              - Built output for GitHub Pages
+```
+
+## Publishing to GitHub Pages
+
+### One-time setup
+
+1. Go to your repository **Settings → Pages**
+2. Under "Build and deployment":
+   - **Source**: Deploy from a branch
+   - **Branch**: Select your current branch
+   - **Folder**: `/docs`
+3. Click **Save**
+
+### Deploy updates
+
+After making changes, run:
 
 ```bash
 npm run build
-rm -rf docs
-cp -R dist docs
-touch docs/.nojekyll
-git add docs
+git add docs/
 git commit -m "Deploy to GitHub Pages"
-git push origin main
+git push
 ```
 
-Then wait about 1-2 minutes and refresh your Pages URL. You may use GitHub Desktop instead of command line git if you wish.
+Wait 1-2 minutes for GitHub Pages to update, then refresh your site.
 
-## 6. Your Live Site URL
+### Your live site URL
 
-Your site is typically:
+```
+https://<your-username>.github.io/<your-repo-name>/
+```
 
-https://<your-username>.github.io/<your-fork-repo>/
+(Find the exact URL in Settings → Pages)
 
-Find the exact URL in Settings -> Pages.
+## Development commands
 
-## 7. Class submission checklist
-
-Submit both:
-
-- Your fork repository URL
-- Your live GitHub Pages URL
+- `npm run dev` - Start local dev server
+- `npm run build` - Build for production (outputs to `docs/`)
+- `npm run preview` - Preview production build locally
 
 ## Troubleshooting
 
-### Page is blank or assets 404
+**Page shows old version**
+- Hard refresh: `Ctrl+Shift+R` (Windows) or `Cmd+Shift+R` (macOS)
+- Confirm latest commit includes updated `docs/` folder
+- Wait 1-2 minutes for Pages to rebuild
 
-- Confirm vite.config.js uses base: './'.
-- Rebuild and redeploy with the commands above.
-- Hard refresh browser (Cmd+Shift+R on macOS).
+**Assets show 404 errors**
+- Make sure vite.config.js has correct `base` path
+- Reference assets from `public/` folder as `/filename`
+- Run `npm run build` again
 
-### Old version still showing 
+**Pages not deploying**
+- Verify Settings → Pages is set to correct branch + `/docs` folder
+- Confirm commit was pushed to the correct branch
 
-- Wait another minute.
-- Hard refresh.
-- Confirm latest commit includes updated docs/ files.
-
-### Pages not updating
-
-- Check Settings -> Pages is set to main + /docs.
-- Confirm you pushed to main.

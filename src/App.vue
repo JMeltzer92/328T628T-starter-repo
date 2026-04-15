@@ -1,13 +1,14 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import * as d3 from 'd3'
+import { DataRow } from './components'
 
 const dataArray = ref([])
 
 onMounted(async () => {
   const parseDate = d3.timeParse('%-m/%-d/%Y %I:%M:%S %p')
 
-  const lines = await d3.csv('/balt_311.csv')
+  const lines = await d3.csv('./balt_311.csv')
   const processed = lines.map(d => ({
     // ...d,
     Agency: d.Agency.trim(),
@@ -38,6 +39,11 @@ onMounted(async () => {
     <div v-if="dataArray.length > 0">
       <p>Data loaded: {{ dataArray.length }} records</p>
     </div>
+    <DataRow 
+      v-for="(data, index) in dataArray.slice(0, 5)" 
+      :key="index" 
+      :data="data"
+    />
   </div>
 </template>
 
